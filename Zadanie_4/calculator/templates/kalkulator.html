@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="pl">
+
+<head>
+    <title>Kalkulator Kredytowy</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+    <noscript>
+        <link rel="stylesheet" href="{% static 'assets/css/noscript.css' %}" />
+    </noscript>
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <header id="header">
+            <div class="logo">
+                <span class="icon fa-calculator"></span>
+            </div>
+            <div class="content">
+                <div class="inner">
+                    <h1>Kalkulator Kredytowy</h1>
+                    <p>Szybko i wygodnie oblicz swoją miesięczną ratę.</p>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#intro">Otwórz Kalkulator</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div id="main">
+            <article id="intro">
+                <h2 class="major">Wprowadź dane</h2>
+
+                {% if errors %}
+                <div
+                    style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+                    <ul style="margin: 0; padding-left: 20px;">
+                        {% for error in errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                {% if result != None and totalAmount != None %}
+                <div
+                    style="background-color: #d4edda; padding: 20px; border-radius: 4px; margin-bottom: 25px; border: 1px solid #c3e6cb; text-align: center;">
+                    <h3 style="color: #155724; margin-bottom: 10px;">Twój wynik:</h3>
+                    <p style="color: #155724; margin: 0;">
+                        Miesięczna rata: <strong style="color: #0b2e13;">{{ result|floatformat:2 }} zł</strong><br>
+                        Całkowita kwota do spłaty: <strong style="color: #0b2e13;">{{ totalAmount|floatformat:2 }}
+                            zł</strong>
+                    </p>
+                </div>
+                {% endif %}
+
+                <form action="#intro" method="POST">
+                    {% csrf_token %}
+                    <div class="fields">
+                        <div class="field half">
+                            <label for="amount">Kwota kredytu (zł):</label>
+                            <input type="text" step="0.01" name="amount" id="amount" value="{{ amount }}"
+                                placeholder="np. 10000" />
+                        </div>
+
+                        <div class="field half">
+                            <label for="months">Okres (miesiące):</label>
+                            <input type="text" name="months" id="months" value="{{ months }}" placeholder="np. 24" />
+                        </div>
+
+                        <div class="field">
+                            <label for="interest">Oprocentowanie roczne:</label>
+                            <select name="interest" id="interest">
+                                <option value="">-- Wybierz procent --</option>
+
+                                {% if interest == '5' %}
+                                <option value="5" selected>5%</option>
+                                {% else %}
+                                <option value="5">5%</option>
+                                {% endif %}
+
+                                {% if interest == '8' %}
+                                <option value="8" selected>8%</option>
+                                {% else %}
+                                <option value="8">8%</option>
+                                {% endif %}
+
+                                {% if interest == '10' %}
+                                <option value="10" selected>10%</option>
+                                {% else %}
+                                <option value="10">10%</option>
+                                {% endif %}
+
+                                {% if interest == '12' %}
+                                <option value="12" selected>12%</option>
+                                {% else %}
+                                <option value="12">12%</option>
+                                {% endif %}
+
+                                {% if interest == '15' %}
+                                <option value="15" selected>15%</option>
+                                {% else %}
+                                <option value="15">15%</option>
+                                {% endif %}
+
+                                {% if interest == '20' %}
+                                <option value="20" selected>20%</option>
+                                {% else %}
+                                <option value="20">20%</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                    <ul class="actions">
+                        <li><input type="submit" value="Oblicz ratę" class="primary" /></li>
+                    </ul>
+                </form>
+            </article>
+        </div>
+
+        <footer id="footer">
+            <p class="copyright">&copy; Twój Kalkulator. Szablon: <a href="https://html5up.net">HTML5 UP</a>.</p>
+        </footer>
+
+    </div>
+
+    <div id="bg"></div>
+
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/browser.min.js' %}"></script>
+    <script src="{% static 'assets/js/breakpoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/util.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>
